@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Presión Arterial Media (PAM)</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        .calculadora-container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #555;
+        }
+        input[type="number"] {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        #resultado, #interpretacion, #validacion {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Calculadora de PAM</h1>
+    <div class="calculadora-container">
+        <form id="calculadora">
+            <label for="sistolica">Presión Sistólica (mmHg):</label>
+            <input type="number" id="sistolica" name="sistolica" required><br><br>
+            <label for="diastolica">Presión Diastólica (mmHg):</label>
+            <input type="number" id="diastolica" name="diastolica" required><br><br>
+            <button type="button" onclick="calcular()">Calcular</button>
+        </form>
+        <div id="resultado"></div>
+        <div id="interpretacion"></div>
+        <div id="validacion"></div>
+    </div>
+
+    <script>
+        function calcular() {
+            const sistolica = parseFloat(document.getElementById("sistolica").value);
+            const diastolica = parseFloat(document.getElementById("diastolica").value);
+
+            fetch('/calcular', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ sistolica: sistolica, diastolica: diastolica })
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById("resultado").textContent = "La PAM es: " + data.pam.toFixed(2) + " mmHg";
+                document.getElementById("interpretacion").textContent = "Interpretación: " + data.interpretacion;
+                document.getElementById("validacion").textContent = "Validación: " + data.validacion;
+            })
+            .catch(error => {
+                document.getElementById("resultado").textContent = "Error: " + error;
+            });
+        }
+    </script>
+</body>
+</html>
