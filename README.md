@@ -55,7 +55,9 @@ La aplicación consta de dos partes principales:
 
 <nombre_del_proyecto>/
 ├── project.py      # Archivo principal de la aplicación Flask
+
 ├── index.html      # Archivo HTML del frontend
+
 └── README.md       # Este archivo
 
 ## Dependencias
