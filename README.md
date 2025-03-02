@@ -79,5 +79,3 @@ La aplicación consta de dos partes principales:
 ## Autor
 
 (Yalitza Alvarez)
-
-## Licencia
